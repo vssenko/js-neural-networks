@@ -20,10 +20,6 @@
       "error",
       "unix"
     ],
-    "quotes": [
-      "error",
-      "single"
-    ],
     "no-unused-expressions": "warn",
     "no-unused-vars": "off",
     "mocha/no-mocha-arrows": 0
