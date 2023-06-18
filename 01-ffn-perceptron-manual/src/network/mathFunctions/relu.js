@@ -1,1 +1,1 @@
-module.exports = x => x >=0 ? x : 0;
+module.exports = (x) => (x >= 0 ? x : 0);

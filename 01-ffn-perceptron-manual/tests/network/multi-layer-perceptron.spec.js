@@ -30,7 +30,7 @@ describe('MultiLayerPerceptron', () => {
       expect(perceptron.layers[1][1].outputWires[1].weight).to.eql(0.5613701211079891);
       expect(perceptron.layers[2][0].bias).to.eql(0.5307507191857215);
       expect(perceptron.layers[2][1].bias).to.eql(0.6190491182582781);
-      
+
       //first layer output weights
       expect(perceptron.layers[0][0].outputWires[0].weight).to.eql(0.1497807161327628);
       expect(perceptron.layers[0][0].outputWires[1].weight).to.eql(0.24975114363236958);

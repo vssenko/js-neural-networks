@@ -1,1 +1,1 @@
-module.exports = (output, expected) => - (expected - output);
+module.exports = (output, expected) => -(expected - output);

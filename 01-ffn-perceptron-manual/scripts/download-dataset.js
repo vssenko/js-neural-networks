@@ -6,19 +6,19 @@ const zlib = require('zlib');
 
 const saveFolder = path.join(process.cwd(), config.dataset.folder);
 
-if (!fs.existsSync(saveFolder)){
+if (!fs.existsSync(saveFolder)) {
   fs.mkdirSync(saveFolder);
 }
 
-const getFileLocation = fileName => path.join(saveFolder, fileName);
+const getFileLocation = (fileName) => path.join(saveFolder, fileName);
 const getFileUrl = (link, fileName) => `${link}${fileName}.gz`;
 
-async function downloadFile(link, fileName){
+async function downloadFile(link, fileName) {
   console.log('');
   console.log(`Starting processing file ${fileName}`);
   const fileLocation = getFileLocation(fileName);
 
-  if (fs.existsSync(fileLocation)){
+  if (fs.existsSync(fileLocation)) {
     console.log(`File ${fileLocation} exists, skipping.`);
     return Promise.resolve();
   }
@@ -28,7 +28,7 @@ async function downloadFile(link, fileName){
   const getFileResponse = await axios({
     method: 'get',
     url: getFileUrl(link, fileName),
-    responseType: 'stream'
+    responseType: 'stream',
   });
 
   return new Promise((resolve, reject) => {
@@ -44,8 +44,8 @@ async function downloadFile(link, fileName){
   });
 }
 
-async function main(){
-  for (const fileName of Object.values(config.mnist.files)){
+async function main() {
+  for (const fileName of Object.values(config.mnist.files)) {
     await downloadFile(config.mnist.link, fileName);
   }
 }

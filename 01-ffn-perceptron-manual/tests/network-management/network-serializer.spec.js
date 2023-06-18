@@ -24,7 +24,7 @@ describe('networkSerializer', () => {
     expect(deserealized.layers[1][1].outputWires[1].weight).to.eql(perceptron.layers[1][1].outputWires[1].weight);
     expect(deserealized.layers[2][0].bias).to.eql(perceptron.layers[2][0].bias);
     expect(deserealized.layers[2][1].bias).to.eql(perceptron.layers[2][1].bias);
-      
+
     //first layer output weights
     expect(deserealized.layers[0][0].outputWires[0].weight).to.eql(perceptron.layers[0][0].outputWires[0].weight);
     expect(deserealized.layers[0][0].outputWires[1].weight).to.eql(perceptron.layers[0][0].outputWires[1].weight);
@@ -33,5 +33,4 @@ describe('networkSerializer', () => {
     expect(deserealized.layers[1][0].bias).to.eql(perceptron.layers[1][0].bias);
     expect(deserealized.layers[1][1].bias).to.eql(perceptron.layers[1][1].bias);
   });
-
 });

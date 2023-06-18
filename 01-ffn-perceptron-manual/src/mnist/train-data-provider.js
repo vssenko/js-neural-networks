@@ -7,47 +7,47 @@ const trainLabelFile = config.mnist.files.trainLabels;
 const testImageFile = config.mnist.files.testImages;
 const testLabelFile = config.mnist.files.testLabels;
 
-function parseImagesBuffer(imagesDataBuffer){
+function parseImagesBuffer(imagesDataBuffer) {
   const startPosition = 16;
   const step = 28 * 28;
 
   const imagesBytes = [];
   let pointer = startPosition;
-  while(pointer < imagesDataBuffer.length - 1){
-    imagesBytes.push(Array.from(new Uint8Array(imagesDataBuffer.slice(pointer, pointer+step))));
-    pointer+=step;
+  while (pointer < imagesDataBuffer.length - 1) {
+    imagesBytes.push(Array.from(new Uint8Array(imagesDataBuffer.slice(pointer, pointer + step))));
+    pointer += step;
   }
 
   return imagesBytes;
 }
 
-function parseLabelsBuffer(labelsBuffer){
+function parseLabelsBuffer(labelsBuffer) {
   const startPosition = 8;
   const step = 1;
 
   const labels = [];
   let pointer = startPosition;
-  while(pointer <= labelsBuffer.length - 1){
-    labels.push(Uint8Array.from(labelsBuffer.slice(pointer, pointer+step))[0]);
-    pointer+=step;
+  while (pointer <= labelsBuffer.length - 1) {
+    labels.push(Uint8Array.from(labelsBuffer.slice(pointer, pointer + step))[0]);
+    pointer += step;
   }
   return labels;
 }
 
-function labelToArrayRepresentation(label){
+function labelToArrayRepresentation(label) {
   const arr = new Array(10).fill(0);
   arr[label] = 1;
   return arr;
 }
 
-function combineArrays(imagesBytesArray, labelsArray){
+function combineArrays(imagesBytesArray, labelsArray) {
   console.log(`Combining images (${imagesBytesArray.length}) and labels (${labelsArray.length}) arrays`);
   return imagesBytesArray.map((input, index) => {
     const label = labelsArray[index];
     return {
       input,
       label,
-      output: labelToArrayRepresentation(label)
+      output: labelToArrayRepresentation(label),
     };
   });
 }
@@ -75,19 +75,17 @@ function provideData(imageFileName, labelFileName) {
   return combineArrays(images, labels);
 }
 
-function getTrainData(){
+function getTrainData() {
   console.log('Reading training data...');
   return provideData(trainImageFile, trainLabelFile);
 }
 
-
-
-function getTestData(){
+function getTestData() {
   console.log('Reading test data...');
   return provideData(testImageFile, testLabelFile);
 }
 
 module.exports = {
   getTrainData,
-  getTestData
+  getTestData,
 };

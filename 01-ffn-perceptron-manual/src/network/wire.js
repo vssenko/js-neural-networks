@@ -4,26 +4,26 @@ const utils = require('./utils');
 // Contains weight of connection, inputNeuron and outputNeuron refs
 
 class Wire {
-  constructor(inputNeuron, outputNeuron){
+  constructor(inputNeuron, outputNeuron) {
     this.inputNeuron = inputNeuron;
     this.outputNeuron = outputNeuron;
     this._weight = utils.generateRandomWeight();
     this._bakedWeight = this.weight;
   }
 
-  set weight(v){
+  set weight(v) {
     this._bakedWeight = this._weight;
     this._weight = v;
   }
 
-  get weight(){
+  get weight() {
     return this._weight;
   }
 
   // This "baked" weight is important
   // Because all the math in current "cycle" of training calculated based on initial weights!
   // I spent a lot of time finding this bug.
-  get bakedWeight(){
+  get bakedWeight() {
     return this._bakedWeight;
   }
 }

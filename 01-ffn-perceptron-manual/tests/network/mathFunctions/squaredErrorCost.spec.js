@@ -3,7 +3,6 @@ const { expect } = chai;
 
 const squaredErrorCost = require('../../../src/network/mathFunctions/squaredErrorCost');
 
-
 describe('mathFunctions', () => {
   describe('squaredErrorCost', () => {
     it('should calculate cost correctly', () => {

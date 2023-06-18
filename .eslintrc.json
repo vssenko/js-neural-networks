@@ -1,0 +1,31 @@
+{
+  "env": {
+    "commonjs": true,
+    "es2021": true,
+    "node": true
+  },
+  "root": true,
+  "plugins": [
+    "prettier",
+    "mocha"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "prettier",
+    "plugin:mocha/recommended"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "no-unused-expressions": "warn",
+    "no-unused-vars": "off",
+    "mocha/no-mocha-arrows": 0
+  }
+}

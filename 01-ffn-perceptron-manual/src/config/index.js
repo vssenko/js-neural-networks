@@ -5,18 +5,18 @@ module.exports = {
       trainImages: 'train-images-idx3-ubyte',
       trainLabels: 'train-labels-idx1-ubyte',
       testImages: 't10k-images-idx3-ubyte',
-      testLabels: 't10k-labels-idx1-ubyte'
-    }
+      testLabels: 't10k-labels-idx1-ubyte',
+    },
   },
   dataset: {
-    folder: '/dataset'
+    folder: '/dataset',
   },
   training: {
     defaultEpochcesCount: 10,
     defaultErrorTreshold: 0.05,
-    successfullStreak: 10
+    successfullStreak: 10,
   },
   serialization: {
-    folder: '/serialized-network-samples'
-  }
+    folder: '/serialized-network-samples',
+  },
 };

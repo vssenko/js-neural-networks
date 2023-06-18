@@ -1,5 +1,5 @@
 module.exports = {
   spec: ['./tests/**/*.spec.js'],
   exit: true,
-  timeout: 10000
+  timeout: 10000,
 };

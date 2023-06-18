@@ -5,5 +5,5 @@ const dSigmoid = require('../mathFunctions/dSigmoid');
 module.exports = {
   name: 'sigmoid',
   func: sigmoid,
-  dFunc: dSigmoid
+  dFunc: dSigmoid,
 };

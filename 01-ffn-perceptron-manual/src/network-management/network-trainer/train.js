@@ -2,29 +2,26 @@ const config = require('../../config');
 const networkSerializer = require('../network-serializer');
 const squaredErrorCostCostFunction = require('../../network/mathFunctions/squaredErrorCost');
 
-
-function train(network, trainData, {epochesCount, successfullStreak, errorTreshold, silent = true, serializeAfterEpoch = false} = {}) {
+function train(network, trainData, { epochesCount, successfullStreak, errorTreshold, silent = true, serializeAfterEpoch = false } = {}) {
   errorTreshold = errorTreshold || config.training.defaultErrorTreshold;
   successfullStreak = successfullStreak || config.training.successfullStreak;
   epochesCount = epochesCount || config.training.defaultEpochcesCount;
 
-
   console.log('Training network...');
   console.log(`Satisfying cost threshold is ${errorTreshold}, successfull streak: ${successfullStreak}`);
 
-  
   let costsSum;
   let currentSuccessStreak = 0;
   let currentCost = 10;
   let stopTraining = false;
 
-  for (let epoch = 1; epoch <= epochesCount; epoch++){
+  for (let epoch = 1; epoch <= epochesCount; epoch++) {
     costsSum = 0;
-    if (stopTraining){
+    if (stopTraining) {
       break;
     }
 
-    for (let i = 0; i < trainData.length; i++){
+    for (let i = 0; i < trainData.length; i++) {
       const sample = trainData[i];
       const data = sample.input;
       const expected = sample.output;
@@ -36,30 +33,30 @@ function train(network, trainData, {epochesCount, successfullStreak, errorTresho
         console.log(`Network output: ${result}`);
       }
       currentCost = squaredErrorCostCostFunction(result, expected);
-      costsSum +=currentCost;
-      if (currentCost <= errorTreshold){
+      costsSum += currentCost;
+      if (currentCost <= errorTreshold) {
         currentSuccessStreak++;
       } else {
         network.backpropagateError(expected);
         currentSuccessStreak = 0;
       }
-      if (currentSuccessStreak >= successfullStreak){
+      if (currentSuccessStreak >= successfullStreak) {
         console.log(`Cost is satisfying (${currentCost}), stop training at Epoch ${epoch}, iteration ${i}.`);
         stopTraining = true;
         break;
       }
     }
-    if (serializeAfterEpoch){
+    if (serializeAfterEpoch) {
       networkSerializer.serializeAndSave(network);
     }
   }
 
-  if (!stopTraining){
+  if (!stopTraining) {
     console.log('Warning: training was not successfull');
   }
-  if (serializeAfterEpoch){
+  if (serializeAfterEpoch) {
     networkSerializer.serializeAndSave(network);
-  } 
+  }
 }
 
 module.exports = train;

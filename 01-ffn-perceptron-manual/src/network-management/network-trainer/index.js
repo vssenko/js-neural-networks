@@ -3,5 +3,5 @@ const test = require('./test');
 
 module.exports = {
   train,
-  test
+  test,
 };
