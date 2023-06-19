@@ -14,6 +14,7 @@ module.exports = function deserialize(fileContent) {
       if (dsNeuron.inputWeights) {
         dsNeuron.inputWeights.forEach((weight, wInd) => {
           networkNeuron.inputWires[wInd].weight = weight;
+          networkNeuron.inputWires[wInd]._bakedWeight = weight;
         });
       }
     });

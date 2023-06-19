@@ -4,7 +4,7 @@
   "description": "Multi layer Perceptron in Javascript.",
   "scripts": {
     "lint": "eslint .",
-    "test-mnist": "node ./scripts/test-mnist",
+    "train-mnist": "node ./scripts/train-mnist",
     "test-serialized-mnist": "node ./scripts/test-serialized-mnist",
     "train": "node ./scripts/train",
     "test-xor": "node ./scripts/test-xor",

@@ -35,7 +35,7 @@ class Neuron {
     }
   }
 
-  backpropagateForOutputLayer({ expectedOutput, learningRate = 0.3 } = {}) {
+  backpropagateForOutputLayer({ expectedOutput, learningRate } = {}) {
     const dEtoOutput = dSquaredErrorCost(this.output, expectedOutput);
     const dOutputToNetInput = this.activator.dFunc(this.netInput);
 
@@ -49,7 +49,7 @@ class Neuron {
     }
   }
 
-  backpropagateForHiddenLayer({ learningRate = 0.3 } = {}) {
+  backpropagateForHiddenLayer({ learningRate } = {}) {
     const dEtoOutput = _.sumBy(this.outputWires, (wire) => wire.outputNeuron.delta * wire.bakedWeight);
     const dOutputToNetInput = this.activator.dFunc(this.netInput);
 

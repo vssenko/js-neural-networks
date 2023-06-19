@@ -1,9 +1,11 @@
 const _ = require('lodash');
 
+const closeToZeroTreshold = 0.0005;
+
 const generateRandomWeight = () => {
   const w = 2 * (Math.random() - 0.5);
   const limitValue = Math.abs(w) / 10;
-  if (w > -limitValue && w < limitValue) {
+  if (Math.abs(w) < closeToZeroTreshold) {
     return generateRandomWeight();
   }
   return w;

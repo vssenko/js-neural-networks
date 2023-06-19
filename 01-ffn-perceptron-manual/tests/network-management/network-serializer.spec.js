@@ -8,7 +8,7 @@ describe('networkSerializer', () => {
   let perceptron;
 
   beforeEach(() => {
-    perceptron = testHelpers.getExampleNetwork();
+    perceptron = testHelpers.getExampleNetwork({ silent: true });
   });
 
   it('should serialize network and deserealize the same', () => {
@@ -17,6 +17,8 @@ describe('networkSerializer', () => {
     const deserealized = networkSerializer.deserialize(serialized);
 
     expect(deserealized.layerSizes).to.deep.eql(perceptron.layerSizes);
+    expect(deserealized.layers).to.deep.eql(perceptron.layers);
+
     //last layer input weights
     expect(deserealized.layers[1][0].outputWires[0].weight).to.eql(perceptron.layers[1][0].outputWires[0].weight);
     expect(deserealized.layers[1][0].outputWires[1].weight).to.eql(perceptron.layers[1][0].outputWires[1].weight);

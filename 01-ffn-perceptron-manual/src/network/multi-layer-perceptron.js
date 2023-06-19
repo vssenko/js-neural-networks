@@ -23,9 +23,10 @@ const utils = require('./utils');
 class MultiLayerPerceptron {
   constructor({
     layerSizes,
-    learningRate = 0.3,
+    learningRate = 0.03,
     minLearningRate,
     learningRateDecayStep, //after how many backpropagations learning rate will be decresed by 10%
+    learningDecayMultiplier = 0.1,
     activator = 'sigmoid',
     silent = true,
     omitBias = false,
@@ -33,6 +34,7 @@ class MultiLayerPerceptron {
     this.learningRate = learningRate;
     this.minLearningRate = minLearningRate || learningRate / 10;
     this.learningRateDecayStep = learningRateDecayStep;
+    this.learningDecayMultiplier = learningDecayMultiplier;
     this.inputSize = layerSizes[0];
     this.layerSizes = layerSizes;
     this.silent = silent;
@@ -88,7 +90,7 @@ class MultiLayerPerceptron {
 
   backpropagateError(expectedOutput) {
     if (this.learningRateDecayStep && this._stallBackpropagateCount > this.learningRateDecayStep && this.learningRate > this.minLearningRate) {
-      this.learningRate = Math.max(this.learningRate * 0.9, this.minLearningRate);
+      this.learningRate = Math.max(this.learningRate * (1 - this.learningDecayMultiplier), this.minLearningRate);
       this._stallBackpropagateCount = 0;
     }
 
@@ -124,6 +126,12 @@ class MultiLayerPerceptron {
 
   getNetworkOutput() {
     return _.last(this.layers).map((n) => n.output);
+  }
+
+  getNetworkPrettifiedOutput() {
+    const output = this.getNetworkOutput();
+
+    return output.map((n) => n.toFixed(4));
   }
 
   logState(additionalInfo) {

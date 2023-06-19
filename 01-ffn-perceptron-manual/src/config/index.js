@@ -13,8 +13,7 @@ module.exports = {
   },
   training: {
     defaultEpochcesCount: 10,
-    defaultErrorTreshold: 0.05,
-    successfullStreak: 10,
+    defaultErrorTreshold: 0.025,
   },
   serialization: {
     folder: '/serialized-network-samples',

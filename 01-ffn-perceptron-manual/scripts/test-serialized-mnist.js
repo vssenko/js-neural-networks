@@ -22,7 +22,7 @@ console.log('Example run on first 10 mnist test images: ');
 
 for (let i = 0; i < 10; i++) {
   const sample = mnistTestData[i];
-  const result = network.run(sample.input);
+  network.run(sample.input);
 
-  console.log(`${sample.label}:${result}`);
+  console.log(`LABEL ${sample.label}  :  ${network.getNetworkPrettifiedOutput()}`);
 }
