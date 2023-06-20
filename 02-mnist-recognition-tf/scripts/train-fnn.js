@@ -11,9 +11,15 @@ async function main() {
 
   await checkNetworkWorking(network, trainData[0]);
 
+  wait(500);
+
   await trainNetwork(network, trainData);
 
+  wait(1000);
+
   await checkNetworkWorking(network, trainData[0]);
+
+  wait(1000);
 
   trainData = null;
   const testData = await mnistDataProvider.getTestData();
@@ -95,11 +101,9 @@ async function testNetwork(network, data) {
     ys: tf.data.array(data.map((d) => d.output)),
   });
 
-  console.log('TODO: FINISH');
-
-  const prediction = await network.predict(data[0].input);
-  console.log(`Result of prediction label ${data[0].label}:`);
-  console.log('result: ', await prediction.data());
+  await network.evaluateDataset(dataset, {
+    verbose: true,
+  });
 
   console.log('Finished testing network');
 }
@@ -131,6 +135,10 @@ function tensorizeImageData(imageData) {
     output: tf.tensor2d(imageData.output, [1, 10]),
     label: imageData.label,
   };
+}
+
+function wait(ms) {
+  return new Promise((res) => setTimeout(res, ms));
 }
 
 Promise.resolve()
