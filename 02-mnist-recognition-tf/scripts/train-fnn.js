@@ -13,8 +13,6 @@ async function main() {
 
   await trainNetwork(network, trainData);
 
-  await network.save();
-
   await checkNetworkWorking(network, trainData[0]);
 
   trainData = null;
@@ -135,4 +133,10 @@ function tensorizeImageData(imageData) {
   };
 }
 
-main();
+Promise.resolve()
+  .then(() => main())
+  .catch((e) => {
+    console.error('Error!');
+    console.error(e);
+    process.exit(-1);
+  });
