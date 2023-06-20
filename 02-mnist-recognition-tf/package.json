@@ -1,0 +1,25 @@
+{
+  "name": "02-mnist-recognition-tf",
+  "version": "1.0.0",
+  "description": "MNIST Digits Recognition using TensorFlow.",
+  "scripts": {
+    "lint": "eslint .",
+    "download-dataset": "node ./scripts/download-dataset.js",
+    "train-fnn": "node ./scripts/train-fnn.js",
+    "train-cnn": "node ./scripts/train-cnn.js"
+  },
+  "author": "Vitaly Senko",
+  "license": "ISC",
+  "dependencies": {
+    "@tensorflow/tfjs-node": "^4.7.0",
+    "axios": "^1.4.0",
+    "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-mocha": "^10.1.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
+  }
+}

@@ -1,4 +1,4 @@
-# ml-digits-recognition
+# 01-ffn-perceptron-manual
 Main goal of this application is to show how neural network works step-by-step.
 
 You may be interested if you:
