@@ -17,7 +17,7 @@ async function main() {
   await tester.checkNetworkWorking(network, firstLabel, firstTrainDataTensorized.input);
 
   let trainDataset = _buildDataset(trainData);
-  await trainer.trainNetwork(network, trainDataset);
+  await trainer.trainNetwork(network, trainDataset, { epochs: 5 });
 
   await tester.checkNetworkWorking(network, firstLabel, firstTrainDataTensorized.input);
 
@@ -33,13 +33,14 @@ async function main() {
  * @param {mnistDataProvider.ImageData[]} imageData
  */
 function _buildDataset(imageDataArray) {
-  const imagesToTensorImages = imageDataArray.map((id) => mnistTransformer.convertImageTo2dTensor(id));
+  const imagesToTensorImages = imageDataArray.map((id) => mnistTransformer.convertImageTo2dTensor(id, { asBatch: false }));
 
   return tf.data
     .zip({
       xs: tf.data.array(imagesToTensorImages.map((d) => d.input)),
       ys: tf.data.array(imagesToTensorImages.map((d) => d.output)),
     })
+    .batch(16)
     .shuffle(4);
 }
 

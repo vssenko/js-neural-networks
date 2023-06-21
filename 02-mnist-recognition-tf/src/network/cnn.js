@@ -1,7 +1,7 @@
 const tf = require('@tensorflow/tfjs-node');
 
 function buildNetwork() {
-  console.log('Creating FNN network.');
+  console.log('Creating CNN network.');
 
   const model = tf.sequential();
 

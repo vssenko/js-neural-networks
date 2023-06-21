@@ -11,12 +11,12 @@ class TensorImageData {
 /**
  * @param {import('./train-data-provider').ImageData} imageData
  */
-function convertImageToPlainTensor(imageData) {
-  //I really don't know why it should be 2d array instead of just 1d [784]
-
+function convertImageToPlainTensor(imageData, { asBatch = true } = {}) {
+  const inputShape = asBatch ? [1, 784] : [784];
+  const outputShape = asBatch ? [1, 10] : [10];
   return new TensorImageData({
-    input: tf.tensor2d(_normalizeInputArray(imageData.input), [1, 784]),
-    output: tf.tensor2d(imageData.output, [1, 10]),
+    input: tf.tensor(_normalizeInputArray(imageData.input), inputShape),
+    output: tf.tensor(imageData.output, outputShape),
     label: imageData.label,
   });
 }
@@ -24,13 +24,13 @@ function convertImageToPlainTensor(imageData) {
 /**
  * @param {import('./train-data-provider').ImageData} imageData
  */
-function convertImageTo2dTensor(imageData) {
-  const tensorAs1d = tf.tensor1d(_normalizeInputArray(imageData.input));
-  const reshapedTensor = tensorAs1d.reshape([1, 28, 28, 1]);
+function convertImageTo2dTensor(imageData, { asBatch = true } = {}) {
+  const inputShape = asBatch ? [1, 28, 28, 1] : [28, 28, 1];
+  const outputShape = asBatch ? [1, 10] : [10];
 
   return new TensorImageData({
-    input: reshapedTensor,
-    output: tf.tensor2d(imageData.output, [1, 10]),
+    input: tf.tensor(_normalizeInputArray(imageData.input), inputShape),
+    output: tf.tensor(imageData.output, outputShape),
     label: imageData.label,
   });
 }

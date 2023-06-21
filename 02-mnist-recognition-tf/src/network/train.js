@@ -4,10 +4,10 @@ const tf = require('@tensorflow/tfjs-node');
  * @param {tf.Sequential} network
  * @param {tf.data.Dataset} dataset
  */
-async function trainNetwork(network, dataset) {
+async function trainNetwork(network, dataset, { epochs = 1 } = {}) {
   console.log('Start training network...');
   await network.fitDataset(dataset, {
-    epochs: 1,
+    epochs,
     callbacks: {
       onEpochEnd(epoch, logs) {
         console.log(`Epoch #${epoch} ended. Loss:${logs.loss}, acc:${logs.acc}`);
