@@ -25,4 +25,3 @@ to train and test FNN :-)
 
 ## `npm run train-cnn`
 to train and test CNN :-) 
-

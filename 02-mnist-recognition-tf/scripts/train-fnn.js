@@ -1,144 +1,50 @@
-const config = require('../src/config');
-const path = require('path');
 const tf = require('@tensorflow/tfjs-node');
 const mnistDataProvider = require('../src/mnist/train-data-provider');
+const mnistTransformer = require('../src/mnist/image-to-tensor');
+const fnnBuilder = require('../src/network/fnn');
+const trainer = require('../src/network/train');
+const tester = require('../src/network/test');
 
 async function main() {
   console.log('Starting exuction FNN flow.');
-  const network = createNetwork();
+
+  const network = fnnBuilder.buildNetwork();
 
   let trainData = await mnistDataProvider.getTrainData();
 
-  await checkNetworkWorking(network, trainData[0]);
+  const firstTrainDataTensorized = mnistTransformer.convertImageToPlainTensor(trainData[0]);
+  const firstLabel = trainData[0].label;
+  await tester.checkNetworkWorking(network, firstLabel, firstTrainDataTensorized.input);
 
-  wait(500);
+  let trainDataset = _buildDataset(trainData);
+  await trainer.trainNetwork(network, trainDataset);
 
-  await trainNetwork(network, trainData);
+  await tester.checkNetworkWorking(network, firstLabel, firstTrainDataTensorized.input);
 
-  wait(1000);
+  trainData = trainDataset = null;
 
-  await checkNetworkWorking(network, trainData[0]);
+  console.log('');
+  console.log('');
 
-  wait(1000);
-
-  trainData = null;
   const testData = await mnistDataProvider.getTestData();
-  await testNetwork(network, testData);
-}
-
-function createNetwork() {
-  console.log('Creating TF network.');
-  const model = tf.sequential();
-
-  model.add(
-    tf.layers.dense({
-      inputShape: [28 * 28],
-      units: 128,
-      activation: 'relu',
-    })
-  );
-
-  model.add(
-    tf.layers.dense({
-      units: 10,
-      activation: 'softmax',
-    })
-  );
-
-  console.log('Compiling TF network.');
-  model.compile({
-    loss: tf.losses.meanSquaredError,
-    optimizer: 'adam',
-    metrics: ['accuracy'],
-  });
-
-  console.log('Network is compiled.');
-  console.log(model.summary());
-
-  return model;
-}
-
-/**
- * @param {tf.Sequential} network
- * @param {mnistDataProvider.ImageData[]} data
- */
-async function trainNetwork(network, data) {
-  console.log('Preparing data to TF.');
-  data = data.map(tensorizeImageData);
-
-  const dataset = tf.data
-    .zip({
-      xs: tf.data.array(data.map((d) => d.input)),
-      ys: tf.data.array(data.map((d) => d.output)),
-    })
-    .shuffle(4);
-
-  console.log('Start training network...');
-  const result = await network.fitDataset(dataset, {
-    epochs: 1,
-    callbacks: {
-      onEpochEnd(epoch, logs) {
-        console.log(`Epoch #${epoch} ended. Loss:${logs.loss}, acc:${logs.acc}`);
-      },
-    },
-  });
-
-  console.log('Network is trained');
-}
-
-/**
- * @param {tf.Sequential} network
- * @param {mnistDataProvider.ImageData[]} data
- */
-async function testNetwork(network, data) {
-  console.log('Start testing network.');
-
-  console.log('Preparing data.');
-  data = data.map(tensorizeImageData);
-
-  const dataset = tf.data.zip({
-    xs: tf.data.array(data.map((d) => d.input)),
-    ys: tf.data.array(data.map((d) => d.output)),
-  });
-
-  await network.evaluateDataset(dataset, {
-    verbose: true,
-  });
-
-  console.log('Finished testing network');
+  const testDataset = _buildDataset(testData);
+  await tester.testNetwork(network, testDataset);
 }
 
 /**
  *
- * @param {tf.Sequential} network
- * @param {mnistDataProvider.ImageData} imageData
+ * @param {mnistDataProvider.ImageData[]} imageData
  */
-async function checkNetworkWorking(network, imageData) {
-  console.log('Checking network can be executed at all');
-  const tensorizedImageData = tensorizeImageData(imageData);
+function _buildDataset(imageDataArray) {
+  const imagesToTensorImages = imageDataArray.map((id) => mnistTransformer.convertImageToPlainTensor(id));
 
-  const prediction = await network.predict(tensorizedImageData.input);
-  console.log(`Result of prediction label ${tensorizedImageData.label}:`);
-  console.log('actual: ', await prediction.data());
-  console.log('expected: ', imageData.output);
-}
-
-/**
- * @param {mnistDataProvider.ImageData} imageData
- */
-function tensorizeImageData(imageData) {
-  return {
-    input: tf.tensor2d(
-      imageData.input.map((i) => i / 255),
-      [1, 784]
-    ),
-    output: tf.tensor2d(imageData.output, [1, 10]),
-    label: imageData.label,
-  };
-}
-
-function wait(ms) {
-  return new Promise((res) => setTimeout(res, ms));
+  return tf.data
+    .zip({
+      xs: tf.data.array(imagesToTensorImages.map((d) => d.input)),
+      ys: tf.data.array(imagesToTensorImages.map((d) => d.output)),
+    })
+    .batch(32)
+    .shuffle(4);
 }
 
 Promise.resolve()
