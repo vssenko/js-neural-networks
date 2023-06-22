@@ -1,11 +1,9 @@
 # 02-mnist-recognition-tf
-Way less headache with already implemented Neural networks :-)
+The same console application for MNIST digits recognition, now with Tensorflow.
 
-Here we will go in 2 ways.
+First approach: [Feedforward neural network](https://en.wikipedia.org/wiki/FNN), classic solution for binary classification.
 
-First approach - [Feedforward neural network](https://en.wikipedia.org/wiki/FNN), classic solution for binary classification.
-
-Second approach - [Convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neural_network), better suited for image recognition.
+Second approach: [Convolutional neural network](https://en.wikipedia.org/wiki/Convolutional_neural_network), better suited for image recognition.
 
 Maybe in some project later on we will impllement CNN from scratch.
 

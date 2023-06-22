@@ -16,10 +16,8 @@ P.S: Probably Typescript will come in next projects.
 
 # Projects
 
-## 01. Feedforward NN. Perceptron.
-Manually implemented basic neural network, as variable sized multi layer Perceptron, with trainer, with serialization.
-Task: Parse MNIST digits.
-[Click here](./01-ffn-perceptron-manual/README.md) to learn more.
+## [01. Feedforward NN. Perceptron.](./01-ffn-perceptron-manual/README.md)
+Console application for MNIST image recognition. Manual neural network, no libraries.
 
-## 02. Tensorflow-based digits recognition.
-Here we will do the same task as in first project, but using Tensorflow. Two different architectures will be implemented, classic FNN (as in first project) and better-suited for image recognition CNN.
+## [02. Tensorflow-based digits recognition.](./02-mnist-recognition-tf/README.md)
+Console application for MNIST image recognition (like in first project). Now using Tensorflow, 2 different networks, FNN and CNN.

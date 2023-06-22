@@ -1,5 +1,5 @@
 # 01-ffn-perceptron-manual
-Main goal of this application is to show how neural network works step-by-step.
+Main goal of this console application is to show how neural network works step-by-step.
 
 You may be interested if you:
 - want to learn NN, Perceprton, Feed forwarding and Backpropagation.
@@ -29,14 +29,12 @@ Optionally, you can provide one parameter, file path to already serialized NN if
 One parameter is required, file path to serialized NN. Should be something like `npm run test-serialized-mnist ./serialized-network-samples/my-sample.json`
 Script will load that NN and test it against test MNIST data.
 
-# Code
+# Implementation
 
-Network itself and trainer are separated things.
+Here is brief description how application was written.
 
-About network.
-
-Main code idea is to reprecent neurons and wires as objects, with all the parameters set inside them.  
-Neuron has `.inputWires` and `.outputWires`.
+First, I have created neural network as class, which can build layers of neurons.
+Each neuron has `.inputWires` and `.outputWires`.
 Wire has `.inputNeuron` and `.outputNeuron`.
 Remember that object variable in JS is a reference to object, so  
 `neuron === neuron.outputWires[0].inputNeuron`  
@@ -45,20 +43,16 @@ as well as
 
 This gives you more natural understanding how actually numbers are flowing in NN. From my perspective it is easier to understand than analyzing 2d-arrays of numbers.
 
-About trainer - it is simple.
+Next, I've created basic math functions and methods for calculating neural network output based on input (`run` method in NN and `feedForward` method in Neuron).
 
-# What could be better
+After that, the most funny part is to implement very explicit backpropagation, which can show you the logic on each neuron. (Check `backpropagateError` method in NN and `backpropagateForOutputLayer`/`backpropagateForHiddenLayer` in Neuron).
 
-Oh, a lot of things.
+After these steps and finding all the bugs, it's time to build things around NN.
 
-First, it is slow. No GPU, no even fast matrix multiplications. Bit by bit, byte by byte :-). With the fact that it is just for educational purpose, it should be fine.
+In `/scripts/download-dataset` you will find code to download MNIST digits files.
 
-Second, no batch backpropagation. It does backpropagation after each unsuccessfull execution, instead of aggregating deviations and performing backpropagation once in N turns (or after some treshold). Once again, the simpler NN is, the better.
+In `/src/mnist` there is code for parsing that files.
 
-Third, here you find dynamic learning rate implemented, which is better than static, but it is just fading over time. For better results it could be based on how bad error is.
+In `/src/network-management` exists our trainer for neural network, which get the data, run for each sample, and backpropagate errors. No batches were implemented for simplicity of understanding basic-basic NN workflow. Also in this folder exists serializer, but i think it's pretty trivial.
 
-Forth, for loss calculation mean square method is used. It is considered definitely not the best choice with binary classification.
-
-Fifth, project is written in pure JS, no Typescript. After getting back to it, I found that it would be easier to explore soft Typescript project than that. Next time probably will use it.
-
-And finally, I couldn't say that it has fantastic results :-) Though I didn't have a goal to score max score.
+All entry scripts in application are in `/scripts` folder.
